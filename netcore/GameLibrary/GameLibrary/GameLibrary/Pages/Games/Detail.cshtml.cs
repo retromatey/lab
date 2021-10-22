@@ -12,6 +12,10 @@ namespace GameLibrary.Pages.Games
     public class DetailModel : PageModel
     {
         private readonly IGameData _gameData;
+
+        [TempData]
+        public string Message { get; set; }
+        
         public Game Game { get; set; }
 
         public DetailModel(IGameData gameData)

@@ -1,0 +1,42 @@
+@page "{gameId:int?}"
+
+@model GameLibrary.Pages.Games.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editing @Model.Game.Title</h1>
+
+<form method="post">
+    
+    <input type="hidden" asp-for="Game.GameId">
+    
+    <div class="form-group">
+        <label asp-for="Game.Title"></label>
+        <input asp-for="Game.Title" class="form-control">
+        <span class="text-danger" asp-validation-for="Game.Title"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Game.Publisher"></label>
+        <input asp-for="Game.Publisher" class="form-control">
+        <span class="text-danger" asp-validation-for="Game.Publisher"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Game.PublishYear"></label>
+        <input asp-for="Game.PublishYear" class="form-control">
+        <span class="text-danger" asp-validation-for="Game.PublishYear"></span>
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="Game.Genre"></label>
+        <select asp-for="Game.Genre" asp-items="Model.Genres" class="form-control"></select>
+        <span class="text-danger" asp-validation-for="Game.Genre"></span>
+    </div>
+    
+    <button class="btn btn-primary">Save</button>
+    
+</form>
+

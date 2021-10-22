@@ -8,6 +8,9 @@ namespace GameLibrary.Data
     {
         Game GetById(int gameId);
         IEnumerable<Game> GetGamesByName(string name);
+        Game Update(Game game);
+        Game Add(Game game);
+        int Commit();
     }
 
     public class InMemoryGameData : IGameData
@@ -37,6 +40,33 @@ namespace GameLibrary.Data
                    where string.IsNullOrEmpty(name) || game.Title.StartsWith(name)
                    orderby game.Title
                    select game;
+        }
+
+        public Game Update(Game game)
+        {
+            var currentRecord = games.SingleOrDefault(g => g.GameId == game.GameId);
+
+            if (currentRecord != null)
+            {
+                currentRecord.Genre = game.Genre;
+                currentRecord.Publisher = game.Publisher;
+                currentRecord.PublishYear = game.PublishYear;
+                currentRecord.Title = game.Title;
+            }
+
+            return currentRecord;
+        }
+
+        public Game Add(Game game)
+        {
+            games.Add(game);
+            game.GameId = games.Max(m => m.GameId) + 1;
+            return game;
+        }
+
+        public int Commit()
+        {
+            return 0;
         }
     }
 }
