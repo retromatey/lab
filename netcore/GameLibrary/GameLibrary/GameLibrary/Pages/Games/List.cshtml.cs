@@ -11,6 +11,9 @@ namespace GameLibrary.Pages.Games
     {
         private readonly IGameData _gameData;
 
+        [TempData]
+        public string Message { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
 

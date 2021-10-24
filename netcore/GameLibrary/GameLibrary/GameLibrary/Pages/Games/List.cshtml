@@ -5,6 +5,11 @@
     ViewData["Title"] = "List";
 }
 
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">@Model.Message</div>
+}
+
 <h1>Games</h1>
 
 <form method="get">
@@ -18,10 +23,12 @@
 
 <table class="table">
     <thead>
-    <th>Title</th>
-    <th>Publisher</th>
-    <th>Genre</th>
-    <th>Actions</th>
+        <tr>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Genre</th>
+            <th>Actions</th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var game in Model.Games)
@@ -30,7 +37,11 @@
             <td>@game.Title</td>
             <td>@game.Publisher</td>
             <td>@game.Genre</td>
-            <td><a asp-page="./Detail" asp-route-gameId="@game.GameId">View</a> | <a asp-page="./Edit" asp-route-gameId="@game.GameId">Edit</a> | Delete</td>
+            <td>
+                <a asp-page="./Detail" asp-route-gameId="@game.GameId">View</a> | 
+                <a asp-page="./Edit" asp-route-gameId="@game.GameId">Edit</a> | 
+                <a asp-page="./Delete" asp-route-gameId="@game.GameId" style="color: red;">Delete</a>
+            </td>
         </tr>
     }
     </tbody>
