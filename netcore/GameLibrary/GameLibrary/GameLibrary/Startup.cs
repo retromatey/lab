@@ -6,6 +6,7 @@ using GameLibrary.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,13 @@ namespace GameLibrary
         {
             services.AddRazorPages();//.AddRazorRuntimeCompilation();
 
-            services.AddSingleton<IGameData, InMemoryGameData>();
+            services.AddDbContextPool<GameLibraryDbContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("GameLibraryDb"));
+            });
+            
+            // services.AddSingleton<IGameData, InMemoryGameData>();
+            services.AddScoped<IGameData, SqliteGameData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GameLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameLibrary.Data
 {
@@ -10,7 +11,63 @@ namespace GameLibrary.Data
         IEnumerable<Game> GetGamesByName(string name);
         Game Update(Game game);
         Game Add(Game game);
+        Game Delete(int gameId);
         int Commit();
+    }
+
+    public class SqliteGameData : IGameData
+    {
+        private readonly GameLibraryDbContext _dbContext;
+
+        public SqliteGameData(GameLibraryDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+        
+        public Game GetById(int gameId)
+        {
+            return _dbContext.Games.Find(gameId);
+        }
+
+        public IEnumerable<Game> GetGamesByName(string name)
+        {
+            var query = from g in _dbContext.Games
+                        where g.Title.StartsWith(name) || string.IsNullOrEmpty(name)
+                        orderby g.Title
+                        select g;
+
+            return query;
+        }
+
+        public Game Update(Game game)
+        {
+            var entity = _dbContext.Games.Attach(game);
+            entity.State = EntityState.Modified;
+            return game;
+        }
+
+        public Game Add(Game game)
+        {
+            _dbContext.Add(game);
+            return game;
+        }
+
+        public Game Delete(int gameId)
+        {
+            var game = GetById(gameId);
+
+            if (game != null)
+            {
+                _dbContext.Games.Remove(game);
+            }
+
+            return game;
+        }
+
+        public int Commit()
+        {
+            return _dbContext.SaveChanges();
+        }
     }
 
     public class InMemoryGameData : IGameData
@@ -61,6 +118,18 @@ namespace GameLibrary.Data
         {
             games.Add(game);
             game.GameId = games.Max(m => m.GameId) + 1;
+            return game;
+        }
+
+        public Game Delete(int gameId)
+        {
+            var game = games.FirstOrDefault(g => g.GameId == gameId);
+
+            if (game != null)
+            {
+                games.Remove(game);
+            }
+
             return game;
         }
 
