@@ -1,0 +1,18 @@
+@page "{gameId}"
+
+@model GameLibrary.Pages.Games.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete!</h1>
+
+<div class="alert alert-danger">Are you sure you want to delete @Model.Game.Title?</div>
+
+<form method="post">
+    
+    <button type="submit" class="btn btn-danger">Yes!</button>
+    <a asp-page="List" class="btn btn-primary">Cancel</a>
+    
+</form>

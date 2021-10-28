@@ -1,0 +1,23 @@
+@page "{gameId:int}"
+
+@model GameLibrary.Pages.Games.DetailModel
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">@Model.Message</div>
+}
+
+<h1>@Model.Game.Title</h1>
+
+<div>Id: @Model.Game.GameId</div>
+<div>Genre: @Model.Game.Genre</div>
+<div>Publisher: @Model.Game.Publisher</div>
+<div>Publish Year: @Model.Game.PublishYear</div>
+
+<br>    
+
+<a asp-page="./List" class="btn btn-primary">All Games</a>

@@ -1,0 +1,51 @@
+﻿@page
+@model GameLibrary.Pages.Games.ListModel
+
+@{
+    ViewData["Title"] = "List";
+}
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-success">@Model.Message</div>
+}
+
+<h1>Games</h1>
+
+<form method="get">
+    <div class="input-group">
+      <input asp-for="SearchTerm" type="search" class="form-control">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Publisher</th>
+            <th>Genre</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var game in Model.Games)
+    {
+        <tr>
+            <td>@game.Title</td>
+            <td>@game.Publisher</td>
+            <td>@game.Genre</td>
+            <td>
+                <a asp-page="./Detail" asp-route-gameId="@game.GameId">View</a> | 
+                <a asp-page="./Edit" asp-route-gameId="@game.GameId">Edit</a> | 
+                <a asp-page="./Delete" asp-route-gameId="@game.GameId" style="color: red;">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a asp-page="./Edit" class="btn btn-primary">Add</a>
+
